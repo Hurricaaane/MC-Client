@@ -21,11 +21,17 @@ import eu.ha3.mc.convenience.Ha3StaticUtilities;
 
 public class mod_CCB extends HaddonBridgeModLoader
 {
-	//private static boolean DEV_MODE_USE_LL_COUNTERPART = true;
+	private static boolean DEV_MODE_USE_MODLOADER_COUNTERPART = true;
 	
 	public mod_CCB()
 	{
 		super(!isInstalledInDouble() ? new CCBHaddon() : new HaddonEmpty());
+		
+		if (DEV_MODE_USE_MODLOADER_COUNTERPART)
+		{
+			System.out.println("ATTENTION! Dev mode is on for CCB!!!");
+			
+		}
 		
 		if (isInstalledInDouble())
 		{
@@ -35,7 +41,8 @@ public class mod_CCB extends HaddonBridgeModLoader
 	
 	private static boolean isInstalledInDouble()
 	{
-		return isPresentLiteModCounterpart(Minecraft.getMinecraft()) && isInstalledLiteLoader(Minecraft.getMinecraft());
+		return !DEV_MODE_USE_MODLOADER_COUNTERPART
+			&& isPresentLiteModCounterpart(Minecraft.getMinecraft()) && isInstalledLiteLoader(Minecraft.getMinecraft());
 	}
 	
 	private static boolean isPresentLiteModCounterpart(Minecraft mc)
