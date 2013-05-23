@@ -27,7 +27,7 @@ public class mod_SkinningInGame extends HaddonBridgeModLoader
 	@Override
 	public String getVersion()
 	{
-		return "r4 for 1.5.1";
+		return "r5 for 1.5.2";
 		
 	}
 	
