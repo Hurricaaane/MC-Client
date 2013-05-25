@@ -44,7 +44,7 @@ public class DVHaddon extends HaddonImpl implements SupportsFrameEvents, EdgeMod
 	@Override
 	public void onFrame(float f)
 	{
-		this.key.signalState(util().areKeysDown(29, 42, 32));
+		this.key.signalState(util().areKeysDown(29, 42, 32)); // CTRL SHIFT D
 	}
 	
 	@Override
