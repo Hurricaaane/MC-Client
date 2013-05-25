@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.minecraft.client.Minecraft;
+import eu.ha3.easy.EdgeModel;
+import eu.ha3.easy.EdgeTrigger;
 import eu.ha3.mc.convenience.Ha3StaticUtilities;
 import eu.ha3.mc.haddon.SupportsFrameEvents;
 import eu.ha3.util.property.simple.ConfigProperty;
@@ -40,9 +42,26 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 	private ConfigProperty blockSound;
 	private Map<String, String> blockMap;
 	
+	private EdgeTrigger debugButton;
+	public static boolean isDebugEnabled;
+	
 	@Override
 	public void onLoad()
 	{
+		this.debugButton = new EdgeTrigger(new EdgeModel() {
+			@Override
+			public void onTrueEdge()
+			{
+				CCBHaddon.isDebugEnabled = true;
+				reloadBlockMapFromFile();
+			}
+			
+			@Override
+			public void onFalseEdge()
+			{
+			}
+		});
+		
 		fixInstallation();
 		loadSounds();
 		
@@ -78,10 +97,22 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 			
 		}
 		
+		reloadBlockMapFromFile();
+		
+		manager().hookFrameEvents(true);
+		
+		this.update = new CCBUpdate(this);
+		this.update.attempt();
+	}
+	
+	private void reloadBlockMapFromFile()
+	{
 		final int softBlocks[] = { 2, 18, 19, 35, 60, 78, 80, 81, 110, 111 };
 		
+		this.blockMap = new LinkedHashMap<String, String>();
 		this.blockSound = new ConfigProperty();
 		this.blockSound.setProperty("0", "default_material");
+		this.blockSound.setProperty("0.flak", "NO_FLAK");
 		for (int block : softBlocks)
 		{
 			this.blockSound.setProperty(Integer.toString(block), "soft");
@@ -101,14 +132,7 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 			e.printStackTrace();
 			throw new RuntimeException("Error caused config not to work: " + e.getMessage());
 		}
-		
-		this.blockMap = new LinkedHashMap<String, String>();
 		createBlockMap();
-		
-		manager().hookFrameEvents(true);
-		
-		this.update = new CCBUpdate(this);
-		this.update.attempt();
 	}
 	
 	private void createBlockMap()
@@ -225,37 +249,6 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 		}
 	}
 	
-	// from
-	// http://stackoverflow.com/questions/106770/standard-concise-way-to-copy-a-file-in-java
-	/*private static void copyFile(File sourceFile, File destFile) throws IOException
-	{
-		if (!destFile.exists())
-		{
-			destFile.createNewFile();
-		}
-		
-		FileChannel source = null;
-		FileChannel destination = null;
-		
-		try
-		{
-			source = new FileInputStream(sourceFile).getChannel();
-			destination = new FileOutputStream(destFile).getChannel();
-			destination.transferFrom(source, 0, source.size());
-		}
-		finally
-		{
-			if (source != null)
-			{
-				source.close();
-			}
-			if (destination != null)
-			{
-				destination.close();
-			}
-		}
-	}*/
-	
 	private boolean isInstalledMLP()
 	{
 		return Ha3StaticUtilities.classExists("Pony", this)
@@ -280,6 +273,7 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 			return;
 		
 		this.system.frame(ply);
+		this.debugButton.signalState(util().areKeysDown(29, 42, 33)); // CTRL SHIFT F
 		
 		try
 		{
@@ -370,7 +364,24 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 		}
 		
 		return getSoundForMaterial(material, event);
+	}
+	
+	public String getFlakForBlock(int block, int meta, CCBEventType event)
+	{
+		String material = null;
 		
+		if (this.blockMap.containsKey(block + "_" + meta + ".flak"))
+		{
+			material = this.blockMap.get(block + "_" + meta + ".flak");
+		}
+		else if (this.blockMap.containsKey(Integer.toString(block) + ".flak"))
+		{
+			material = this.blockMap.get(Integer.toString(block) + ".flak");
+		}
+		else
+			return null;
+		
+		return getSoundForMaterial(material, event);
 	}
 	
 	public String getSoundForMaterial(String material, CCBEventType event)

@@ -56,7 +56,8 @@ public class CCBReaderH implements CCBReader
 	
 	protected void simulateFootsteps(EntityPlayer ply)
 	{
-		final float distanceReference = ply.field_82151_R;
+		// final float distanceReference = ply.field_82151_R;
+		final float distanceReference = ply.distanceWalkedModified;
 		//System.out.println(distanceReference);
 		if (this.dmwBase > distanceReference)
 		{
@@ -243,6 +244,7 @@ public class CCBReaderH implements CCBReader
 		World world = this.mod.manager().getMinecraft().theWorld;
 		
 		int block = world.getBlockId(xx, yy, zz);
+		int metadata = world.getBlockMetadata(xx, yy, zz);
 		if (block == 0)
 		{
 			int mm = world.blockGetRenderType(xx, yy - 1, zz);
@@ -250,8 +252,10 @@ public class CCBReaderH implements CCBReader
 			if (mm == 11 || mm == 32 || mm == 21)
 			{
 				block = world.getBlockId(xx, yy - 1, zz);
+				metadata = world.getBlockMetadata(xx, yy - 1, zz);
 			}
 		}
+		
 		if (block > 0)
 		{
 			boolean overrode = false;
@@ -276,24 +280,51 @@ public class CCBReaderH implements CCBReader
 				{
 					if (this.VAR.PLAY_MATSTEPS)
 					{
-						String sound = this.mod.getSoundForBlock(block, world.getBlockMetadata(xx, yy, zz), event);
+						String sound = this.mod.getSoundForBlock(block, metadata, event);
+						String flak =
+							this.mod.getFlakForBlock(
+								world.getBlockId(xx, yy + 1, zz), world.getBlockMetadata(xx, yy + 1, zz), event);
+						
+						if (flak != null)
+						{
+							sound = flak;
+							if (CCBHaddon.isDebugEnabled)
+							{
+								CCBHaddon.log("Flak enabled");
+							}
+						}
 						
 						if (sound != null && !sound.equals("BLANK"))
 						{
 							this.mod.manager().getMinecraft().theWorld.playSound(
 								ply.posX, ply.posY, ply.posZ, sound, volume,
 								randomPitch(1f, this.VAR.MATSTEP_PITCH_RADIUS), false);
+							if (CCBHaddon.isDebugEnabled)
+							{
+								CCBHaddon.log("Playing sound " + sound + " for " + block + ":" + metadata);
+							}
 						}
 						
 						if (sound != null && !sound.equals("DEFAULT"))
 						{
 							overrode = true;
 						}
+						else
+						{
+							if (CCBHaddon.isDebugEnabled)
+							{
+								CCBHaddon.log("Fallback to default for " + block + ":" + metadata);
+							}
+						}
 					}
 					
 					if (this.VAR.PLAY_BLOCKSTEPS && (!this.VAR.PLAY_OVERRIDES || !overrode))
 					{
 						ply.playStepSound(xx, yy, zz, block);
+						if (CCBHaddon.isDebugEnabled)
+						{
+							CCBHaddon.log("Playing base Minecaft step for " + block);
+						}
 					}
 				}
 			}

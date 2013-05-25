@@ -155,7 +155,8 @@ public class CCBReader4P extends CCBReaderH
 	
 	protected void simulateHoofsteps(EntityPlayer ply)
 	{
-		final float distanceReference = ply.field_82151_R;
+		// final float distanceReference = ply.field_82151_R;
+		final float distanceReference = ply.distanceWalkedModified;
 		//System.out.println(distanceReference);
 		if (this.dmwBase > distanceReference)
 		{
@@ -244,5 +245,4 @@ public class CCBReader4P extends CCBReaderH
 		this.yPosition = ply.posY;
 		
 	}
-	
 }
