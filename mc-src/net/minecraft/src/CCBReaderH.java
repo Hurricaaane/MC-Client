@@ -57,7 +57,7 @@ public class CCBReaderH implements CCBReader
 	protected void simulateFootsteps(EntityPlayer ply)
 	{
 		// final float distanceReference = ply.field_82151_R;
-		final float distanceReference = ply.distanceWalkedModified;
+		final float distanceReference = ply.distanceWalkedOnStepModified;
 		//System.out.println(distanceReference);
 		if (this.dmwBase > distanceReference)
 		{

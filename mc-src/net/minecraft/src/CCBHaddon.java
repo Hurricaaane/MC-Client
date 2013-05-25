@@ -386,7 +386,7 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 	
 	public String getSoundForMaterial(String material, CCBEventType event)
 	{
-		if (material == null)
+		if (material == null || material.equals("FALLBACK"))
 			return null;
 		
 		if (event == CCBEventType.STEP)
