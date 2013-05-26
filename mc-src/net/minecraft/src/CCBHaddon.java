@@ -43,7 +43,7 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 	private Map<String, String> blockMap;
 	
 	private EdgeTrigger debugButton;
-	public static boolean isDebugEnabled;
+	private static boolean isDebugEnabled;
 	
 	@Override
 	public void onLoad()
@@ -52,7 +52,7 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 			@Override
 			public void onTrueEdge()
 			{
-				CCBHaddon.isDebugEnabled = true;
+				setDebugEnabled(true);
 				reloadBlockMapFromFile();
 			}
 			
@@ -342,6 +342,19 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 		System.out.println("(CCB) " + contents);
 	}
 	
+	public static void setDebugEnabled(boolean enable)
+	{
+		isDebugEnabled = enable;
+	}
+	
+	public static void debug(String contents)
+	{
+		if (!isDebugEnabled)
+			return;
+		
+		System.out.println("(CCB) " + contents);
+	}
+	
 	public void saveConfig()
 	{
 	}
@@ -388,6 +401,9 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 	{
 		if (material == null || material.equals("FALLBACK"))
 			return null;
+		
+		if (material.equals("BLANK") || material.equals("NOT_EMITTER"))
+			return material;
 		
 		if (event == CCBEventType.STEP)
 			return this.blockMap.get(material + ".step");

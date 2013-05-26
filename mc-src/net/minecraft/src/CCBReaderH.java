@@ -288,43 +288,51 @@ public class CCBReaderH implements CCBReader
 						if (flak != null)
 						{
 							sound = flak;
-							if (CCBHaddon.isDebugEnabled)
-							{
-								CCBHaddon.log("Flak enabled");
-							}
+							CCBHaddon.debug("Flak enabled");
 						}
 						
-						if (sound != null && !sound.equals("BLANK"))
+						if (sound != null)
 						{
-							this.mod.manager().getMinecraft().theWorld.playSound(
-								ply.posX, ply.posY, ply.posZ, sound, volume,
-								randomPitch(1f, this.VAR.MATSTEP_PITCH_RADIUS), false);
-							if (CCBHaddon.isDebugEnabled)
+							// Player has stepped on a non-emitter block by blockmap choice
+							if (sound.equals("NOT_EMITTER"))
 							{
-								CCBHaddon.log("Playing sound " + sound + " for " + block + ":" + metadata);
+								CCBHaddon.debug("Not emitter for " + block + ":" + metadata);
+								
+								return false;
+							}
+							
+							// Player has stepped on a non-blank sound
+							if (!sound.equals("BLANK"))
+							{
+								this.mod.manager().getMinecraft().theWorld.playSound(
+									ply.posX, ply.posY, ply.posZ, sound, volume,
+									randomPitch(1f, this.VAR.MATSTEP_PITCH_RADIUS), false);
+								
+								CCBHaddon.debug("Playing sound " + sound + " for " + block + ":" + metadata);
+								
+							}
+							else
+							{
+								CCBHaddon.debug("Blank sound for " + block + ":" + metadata);
 							}
 						}
 						
-						if (sound != null && !sound.equals("DEFAULT"))
+						// Sound isn't null
+						if (sound != null /* && !sound.equals("DEFAULT")*/)
 						{
 							overrode = true;
 						}
 						else
 						{
-							if (CCBHaddon.isDebugEnabled)
-							{
-								CCBHaddon.log("Fallback to default for " + block + ":" + metadata);
-							}
+							CCBHaddon.debug("Fallback to default for " + block + ":" + metadata);
 						}
 					}
 					
+					// Should it play blocksteps? Requires blocksteps option and (all overrides or not overridden)
 					if (this.VAR.PLAY_BLOCKSTEPS && (!this.VAR.PLAY_OVERRIDES || !overrode))
 					{
 						ply.playStepSound(xx, yy, zz, block);
-						if (CCBHaddon.isDebugEnabled)
-						{
-							CCBHaddon.log("Playing base Minecaft step for " + block);
-						}
+						CCBHaddon.debug("Playing base Minecaft step for " + block);
 					}
 				}
 			}
