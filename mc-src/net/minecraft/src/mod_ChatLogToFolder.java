@@ -28,8 +28,18 @@ import net.minecraft.client.Minecraft;
 
 public class mod_ChatLogToFolder extends BaseMod
 {
+	private File folder;
+	
+	private final SimpleDateFormat fileDateFormat;
+	private final SimpleDateFormat currentDateFormat;
+	
+	private File currentFile;
+	private String datePrex;
+	
 	public mod_ChatLogToFolder()
 	{
+		this.fileDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		this.currentDateFormat = new SimpleDateFormat("HH:mm:ss");
 	}
 	
 	@Override
@@ -42,41 +52,17 @@ public class mod_ChatLogToFolder extends BaseMod
 	@Override
 	public void load()
 	{
-		try
-		{
-			createLogManager(new File(Minecraft.getMinecraftDir(), "chatlogs/"));
-			
-			Calendar currentDate = Calendar.getInstance();
-			SimpleDateFormat explicitFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String dateNow = explicitFormatter.format(currentDate.getTime());
-			
-			append(
-				"", "", "========================",
-				"Starting new session on: " + dateNow + " (" + System.currentTimeMillis() + ")",
-				"========================");
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			
-		}
+		createLogManager(new File(Minecraft.getMinecraftDir(), "chatlogs/"));
+		
+		Calendar currentDate = Calendar.getInstance();
+		SimpleDateFormat explicitFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateNow = explicitFormatter.format(currentDate.getTime());
+		
+		append(
+			"", "", "========================",
+			"Starting new session on: " + dateNow + " (" + System.currentTimeMillis() + ")", "========================");
 		
 	}
-	
-	@Override
-	public void clientChat(String contents)
-	{
-		append(contents);
-		
-	}
-	
-	private File folder;
-	
-	private SimpleDateFormat fileDateFormat;
-	private SimpleDateFormat currentDateFormat;
-	
-	private File currentFile;
-	private String datePrex;
 	
 	public void createLogManager(File folder)
 	{
@@ -85,10 +71,14 @@ public class mod_ChatLogToFolder extends BaseMod
 		{
 			folder.mkdirs();
 		}
-		this.fileDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		this.currentDateFormat = new SimpleDateFormat("HH:mm:ss");
 		
 		this.datePrex = "";
+	}
+	
+	@Override
+	public void clientChat(String contents)
+	{
+		append(contents);
 	}
 	
 	private void ensureCurrentFile(Date date) throws IOException
