@@ -125,16 +125,33 @@ public class CCBReaderH implements CCBReader
 	
 	protected void simulateJumpingLanding(EntityPlayer ply)
 	{
-		if (this.VAR.PLAY_STEP_ON_JUMP && this.isFlying && ply.isJumping)
+		if (this.isFlying && ply.isJumping)
 		{
-			makeSoundForPlayerBlock(
-				ply, this.VAR.JUMP_VOLUME * this.VAR.GLOBAL_VOLUME_MULTIPLICATOR, 0.5d, CCBEventType.JUMP);
+			if (this.VAR.PLAY_STEP_ON_JUMP)
+			{
+				makeSoundForPlayerBlock(
+					ply, this.VAR.JUMP_VOLUME * this.VAR.GLOBAL_VOLUME_MULTIPLICATOR, 0.5d, CCBEventType.JUMP);
+			}
+			
+			if (this.VAR.PLAY_SPECIAL_ON_JUMP)
+			{
+				// MAKE VARIATOR FOR PITCH ETC.
+				//ply.playSound("UNDONE", 0, 1.0f + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4f);
+			}
 		}
-		else if (this.VAR.PLAY_STEP_ON_LAND_HARD
-			&& !this.isFlying && this.fallDistance > this.VAR.LAND_HARD_DISTANCE_MIN)
+		else if (!this.isFlying && this.fallDistance > this.VAR.LAND_HARD_DISTANCE_MIN)
 		{
-			makeSoundForPlayerBlock(
-				ply, this.VAR.LAND_HARD_VOLUME * this.VAR.GLOBAL_VOLUME_MULTIPLICATOR, 0d, CCBEventType.LAND);
+			if (this.VAR.PLAY_STEP_ON_LAND_HARD)
+			{
+				makeSoundForPlayerBlock(
+					ply, this.VAR.LAND_HARD_VOLUME * this.VAR.GLOBAL_VOLUME_MULTIPLICATOR, 0d, CCBEventType.LAND);
+			}
+			
+			if (this.VAR.PLAY_SPECIAL_ON_LAND_HARD)
+			{
+				// MAKE VARIATOR FOR PITCH ETC.
+				//ply.playSound("UNDONE", 0, 1.0f + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4f);
+			}
 		}
 	}
 	
@@ -156,7 +173,7 @@ public class CCBReaderH implements CCBReader
 		//       V z
 		if (!worked)
 		{
-			// Create a trigo. circle contained inside the block the player is over
+			// Create a trigo. mark contained inside the block the player is over
 			double xdang = (ply.posX - xx) * 2 - 1;
 			double zdang = (ply.posZ - zz) * 2 - 1;
 			// -1   0   1
@@ -169,7 +186,7 @@ public class CCBReaderH implements CCBReader
 			//      V z
 			
 			// If the player is at the edge of that
-			if (Math.sqrt(xdang * xdang + zdang * zdang) > 0.6)
+			if (/*Math.sqrt(xdang * xdang + zdang * zdang) > 0.6*/Math.max(Math.abs(xdang), Math.abs(zdang)) > 0.2f)
 			{
 				// Find the maximum absolute value of X or Z
 				boolean isXdangMax = Math.abs(xdang) > Math.abs(zdang);
@@ -304,9 +321,10 @@ public class CCBReaderH implements CCBReader
 							// Player has stepped on a non-blank sound
 							if (!sound.equals("BLANK"))
 							{
-								this.mod.manager().getMinecraft().theWorld.playSound(
-									ply.posX, ply.posY, ply.posZ, sound, volume,
-									randomPitch(1f, this.VAR.MATSTEP_PITCH_RADIUS), false);
+								//this.mod.manager().getMinecraft().theWorld.playSound(
+								//	ply.posX, ply.posY, ply.posZ, sound, volume,
+								//	randomPitch(1f, this.VAR.MATSTEP_PITCH_RADIUS), false);
+								ply.playSound(sound, volume, randomPitch(1f, this.VAR.MATSTEP_PITCH_RADIUS));
 								
 								CCBHaddon.debug("Playing sound " + sound + " for " + block + ":" + metadata);
 								

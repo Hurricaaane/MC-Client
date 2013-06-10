@@ -79,6 +79,10 @@ public class CCBVariator
 	public float LAND_HARD_DISTANCE_MIN = 0.9f; //2f
 	public boolean PLAY_STEP_ON_LAND_HARD = true;
 	
+	public boolean PLAY_SPECIAL_ON_JUMP = false;
+	public boolean PLAY_SPECIAL_ON_LAND = false; // TODO UNUSED
+	public boolean PLAY_SPECIAL_ON_LAND_HARD = false;
+	
 	public void loadConfig(ConfigProperty config)
 	{
 		Set<String> keys = config.getAllProperties().keySet();
