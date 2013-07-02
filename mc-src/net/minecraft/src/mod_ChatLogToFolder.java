@@ -8,8 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import net.minecraft.client.Minecraft;
-
 /*
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
                     Version 2, December 2004 
@@ -52,7 +50,7 @@ public class mod_ChatLogToFolder extends BaseMod
 	@Override
 	public void load()
 	{
-		createLogManager(new File(Minecraft.getMinecraftDir(), "chatlogs/"));
+		createLogManager(new File(Minecraft.getMinecraft().mcDataDir, "chatlogs/"));
 		
 		Calendar currentDate = Calendar.getInstance();
 		SimpleDateFormat explicitFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-import net.minecraft.client.Minecraft;
 import eu.ha3.mc.haddon.PrivateAccessException;
 
 /*
@@ -39,7 +38,7 @@ public class FootstepsShortCircuitHaddon extends HaddonImpl
 		
 		try
 		{
-			File file = new File(Minecraft.getMinecraftDir(), "footstepsshortcircuit.txt");
+			File file = new File(util().getMinecraftDir(), "footstepsshortcircuit.txt");
 			if (!file.exists())
 			{
 				boolean yes = file.createNewFile();

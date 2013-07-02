@@ -1,16 +1,5 @@
 package net.minecraft.src;
 
-import net.minecraft.client.Minecraft;
-
-import com.mumfrey.liteloader.LiteMod;
-import com.mumfrey.liteloader.RenderListener;
-
-import eu.ha3.mc.haddon.Bridge;
-import eu.ha3.mc.haddon.Haddon;
-import eu.ha3.mc.haddon.Manager;
-import eu.ha3.mc.haddon.SupportsFrameEvents;
-import eu.ha3.mc.haddon.UnsupportedInterfaceException;
-import eu.ha3.mc.haddon.Utility;
 
 /*
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
@@ -28,9 +17,9 @@ import eu.ha3.mc.haddon.Utility;
   0. You just DO WHAT THE FUCK YOU WANT TO. 
 */
 
-public class LiteMod_CCB implements LiteMod, RenderListener, Manager, Bridge
+public class LiteMod_CCB /*implements LiteMod, RenderListener, Manager, Bridge*/
 {
-	private CCBHaddon haddon;
+	/*private CCBHaddon haddon;
 	private Utility utility;
 	
 	private Minecraft mc;
@@ -192,5 +181,5 @@ public class LiteMod_CCB implements LiteMod, RenderListener, Manager, Bridge
 	{
 		return "" + CCBHaddon.VERSION;
 	}
-	
+	*/
 }

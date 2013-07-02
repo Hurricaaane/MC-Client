@@ -7,8 +7,6 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import net.minecraft.client.Minecraft;
-
 /*
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
                     Version 2, December 2004 
@@ -47,7 +45,7 @@ public class mod_ChatLogToFile extends BaseMod
 	{
 		try
 		{
-			this.file = new File(Minecraft.getMinecraftDir(), "chatlog.txt");
+			this.file = new File(Minecraft.getMinecraft().mcDataDir, "chatlog.txt");
 			if (!this.file.exists())
 			{
 				this.file.createNewFile();

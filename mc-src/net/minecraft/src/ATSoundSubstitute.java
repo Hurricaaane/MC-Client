@@ -24,10 +24,12 @@ import java.util.Random;
 public class ATSoundSubstitute extends SoundPoolEntry implements ATSoundWrapper
 {
 	private SoundPoolEntry original;
+	private String soundName_SUB;
+	private URL soundUrl_SUB;
 	
 	public ATSoundSubstitute(SoundPoolEntry original, String newSoundName, File substituant)
 	{
-		super(original.soundName, original.soundUrl);
+		super(original.func_110458_a(), original.func_110457_b());
 		
 		this.original = original;
 		
@@ -39,13 +41,13 @@ public class ATSoundSubstitute extends SoundPoolEntry implements ATSoundWrapper
 				// For some reason, sometimes sounds get somehow cached somewhere I'm
 				// not sure of. This random bullcrap prevents cached sounds of previous
 				// loading sequences to replace this one
-				this.soundName = new Random().nextInt(99999) + newSoundName;
-				this.soundUrl = substituant.toURI().toURL();
+				this.soundName_SUB = new Random().nextInt(99999) + newSoundName;
+				this.soundUrl_SUB = substituant.toURI().toURL();
 			}
 			else
 			{
 				System.out.println("(ATS) Tried to substitute "
-					+ original.soundName + " but the file " + substituant.toString() + " does not exist!");
+					+ original.func_110458_a() + " but the file " + substituant.toString() + " does not exist!");
 			}
 		}
 		catch (MalformedURLException e)
@@ -56,7 +58,7 @@ public class ATSoundSubstitute extends SoundPoolEntry implements ATSoundWrapper
 	
 	public ATSoundSubstitute(SoundPoolEntry original, String newSoundName, ATConversible conv)
 	{
-		super(original.soundName, original.soundUrl);
+		super(original.func_110458_a(), original.func_110457_b());
 		
 		this.original = original;
 		
@@ -71,13 +73,13 @@ public class ATSoundSubstitute extends SoundPoolEntry implements ATSoundWrapper
 					// For some reason, sometimes sounds get somehow cached somewhere I'm
 					// not sure of. This random bullcrap prevents cached sounds of previous
 					// loading sequences to replace this one
-					this.soundName = new Random().nextInt(99999) + newSoundName;
-					this.soundUrl = substituant.toURI().toURL();
+					this.soundName_SUB = new Random().nextInt(99999) + newSoundName;
+					this.soundUrl_SUB = substituant.toURI().toURL();
 				}
 				else
 				{
 					System.out.println("(ATS) Tried to substitute "
-						+ original.soundName + " but the file " + substituant.toString() + " does not exist!");
+						+ original.func_110458_a() + " but the file " + substituant.toString() + " does not exist!");
 				}
 			}
 			catch (MalformedURLException e)
@@ -91,8 +93,8 @@ public class ATSoundSubstitute extends SoundPoolEntry implements ATSoundWrapper
 			// For some reason, sometimes sounds get somehow cached somewhere I'm
 			// not sure of. This random bullcrap prevents cached sounds of previous
 			// loading sequences to replace this one
-			this.soundName = new Random().nextInt(99999) + newSoundName;
-			this.soundUrl = substituant;
+			this.soundName_SUB = new Random().nextInt(99999) + newSoundName;
+			this.soundUrl_SUB = substituant;
 		}
 	}
 	
@@ -101,7 +103,7 @@ public class ATSoundSubstitute extends SoundPoolEntry implements ATSoundWrapper
 		if (this.original instanceof ATSoundSubstitute)
 		{
 			System.out.println("(ATSS) Nesting occured with "
-				+ this.soundUrl.toString() + " / " + this.original.soundUrl.toString() + " !");
+				+ func_110457_b().toString() + " / " + this.original.func_110457_b().toString() + " !");
 			return ((ATSoundSubstitute) this.original).getOriginal();
 			
 		}
@@ -114,4 +116,15 @@ public class ATSoundSubstitute extends SoundPoolEntry implements ATSoundWrapper
 		return getOriginal();
 	}
 	
+	@Override
+	public String func_110458_a()
+	{
+		return this.soundName_SUB;
+	}
+	
+	@Override
+	public URL func_110457_b()
+	{
+		return this.soundUrl_SUB;
+	}
 }

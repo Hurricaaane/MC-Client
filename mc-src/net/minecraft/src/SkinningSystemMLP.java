@@ -9,8 +9,6 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-import net.minecraft.client.Minecraft;
-
 /*
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
                     Version 2, December 2004
@@ -143,7 +141,7 @@ public class SkinningSystemMLP implements SkinningSystem
 					.println("[Mine Little Pony] Failed to read a background pony texture from a file, resetting to default charpony.png");
 				try
 				{
-					bufferedimage = ImageIO.read(net.minecraft.client.Minecraft.class.getResource(pony.texture));
+					bufferedimage = ImageIO.read(net.minecraft.src.Minecraft.class.getResource(pony.texture));
 					pony.checkBuiltinTexture(bufferedimage);
 				}
 				catch (Exception e2)
@@ -152,7 +150,7 @@ public class SkinningSystemMLP implements SkinningSystem
 					System.out.println("[Mine Little Pony] Failed to read charpony.png, resetting to default char.png");
 					try
 					{
-						bufferedimage = ImageIO.read(net.minecraft.client.Minecraft.class.getResource(pony.texture));
+						bufferedimage = ImageIO.read(net.minecraft.src.Minecraft.class.getResource(pony.texture));
 						pony.checkBuiltinTexture(bufferedimage);
 					}
 					catch (Exception e3)
@@ -173,7 +171,7 @@ public class SkinningSystemMLP implements SkinningSystem
 	public void update()
 	{
 		this.pony = getMyPony();
-		loadSkinFromFile(this.pony, new File(this.mc.getMinecraftDir(), this.skinPath));
+		loadSkinFromFile(this.pony, new File(this.haddon.util().getMinecraftDir(), this.skinPath));
 		
 		if (this.pony == null)
 		{

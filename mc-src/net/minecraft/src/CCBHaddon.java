@@ -9,7 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.client.Minecraft;
 import eu.ha3.easy.EdgeModel;
 import eu.ha3.easy.EdgeTrigger;
 import eu.ha3.mc.convenience.Ha3StaticUtilities;
@@ -74,7 +73,7 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 			this.system = new CCBReader4P(this);
 		}
 		
-		File configFile = new File(Minecraft.getMinecraftDir(), "ccb.cfg");
+		File configFile = new File(util().getMinecraftDir(), "ccb.cfg");
 		if (configFile.exists())
 		{
 			log("Config file found. Loading...");
@@ -124,7 +123,7 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 		// Load configuration from source
 		try
 		{
-			this.blockSound.setSource(new File(Minecraft.getMinecraftDir(), "ccb_blockmap.cfg").getCanonicalPath());
+			this.blockSound.setSource(new File(util().getMinecraftDir(), "ccb_blockmap.cfg").getCanonicalPath());
 			this.blockSound.load();
 		}
 		catch (IOException e)
@@ -157,7 +156,7 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 	
 	private void fixInstallation()
 	{
-		File folder = new File(Minecraft.getMinecraftDir(), "resources/sound3/ccb_sounds");
+		File folder = new File(util().getMinecraftDir(), "resources/sound3/ccb_sounds");
 		if (!folder.exists())
 		{
 			log("Did not find folder resources/sound3/ccb_sounds/. Attempting first installation");
@@ -176,7 +175,7 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 				if (!file.exists())
 				{
 					URL toInstall =
-						net.minecraft.client.Minecraft.class.getResource("/resources/sound/ccb_sounds/" + name);
+						net.minecraft.src.Minecraft.class.getResource("/resources/sound/ccb_sounds/" + name);
 					stream = toInstall.openStream();
 					if (stream != null)
 					{
@@ -257,7 +256,7 @@ public class CCBHaddon extends HaddonImpl implements SupportsFrameEvents
 	
 	private void loadSounds()
 	{
-		File dir = new File(Minecraft.getMinecraftDir(), "resources/sound3/ccb_sounds/");
+		File dir = new File(util().getMinecraftDir(), "resources/sound3/ccb_sounds/");
 		if (dir.exists())
 		{
 			loadResource(dir, "sound3/ccb_sounds/");

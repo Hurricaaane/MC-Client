@@ -1,6 +1,5 @@
 package net.minecraft.src;
 
-import net.minecraft.client.Minecraft;
 import eu.ha3.mc.convenience.Ha3KeyActions;
 import eu.ha3.mc.convenience.Ha3KeyManager;
 import eu.ha3.mc.haddon.PrivateAccessException;
@@ -231,7 +230,7 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 		if (!this.wasEnabled)
 			return;
 		
-		EntityLiving ply = manager().getMinecraft().thePlayer;
+		EntityLivingBase ply = manager().getMinecraft().thePlayer;
 		
 		ply.rotationPitch = this.directivePitch;
 		ply.rotationYaw = this.directiveYaw;
@@ -243,7 +242,7 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 		if (!this.wasEnabled)
 			return;
 		
-		EntityLiving ply = manager().getMinecraft().thePlayer;
+		EntityLivingBase ply = manager().getMinecraft().thePlayer;
 		
 		this.directivePitch = ply.rotationPitch;
 		this.directiveYaw = ply.rotationYaw;

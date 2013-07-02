@@ -24,13 +24,13 @@ public class ATSoundCumulation extends SoundPoolEntry implements ATSoundWrapper
 	
 	public ATSoundCumulation(SoundPoolEntry generated)
 	{
-		super(generated.soundName, generated.soundUrl);
+		super(new Random().nextInt(99999) + generated.func_110458_a(), generated.func_110457_b());
 		
 		// Why is there a random bullcrap here?
 		// For some reason, sometimes sounds get somehow cached somewhere I'm
 		// not sure of. This random bullcrap prevents cached sounds of previous
 		// loading sequences to replace this one
-		this.soundName = new Random().nextInt(99999) + this.soundName;
+		//this.soundName = new Random().nextInt(99999) + this.soundName;
 		
 		this.generated = generated;
 	}
@@ -40,7 +40,7 @@ public class ATSoundCumulation extends SoundPoolEntry implements ATSoundWrapper
 		if (this.generated instanceof ATSoundCumulation)
 		{
 			System.out.println("(ATSO) Nesting occured with "
-				+ this.soundUrl.toString() + " / " + this.generated.soundUrl.toString() + " !");
+				+ func_110457_b().toString() + " / " + this.generated.func_110457_b().toString() + " !");
 			return ((ATSoundCumulation) this.generated).getGenerated();
 		}
 		return this.generated;

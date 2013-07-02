@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.src.Minecraft;
 
 import org.lwjgl.opengl.GL11;
 

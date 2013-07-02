@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.client.Minecraft;
 import eu.ha3.util.property.simple.PropertyMissingException;
 
 /*
@@ -46,7 +45,7 @@ public class ATPackManager
 		this.packs = new LinkedHashMap<String, ATPack>();
 		this.packOrder = new ArrayList<String>();
 		
-		this.atDirectory = new File(Minecraft.getMinecraftDir(), "audiotori/");
+		this.atDirectory = new File(mod.util().getMinecraftDir(), "audiotori/");
 	}
 	
 	public void cacheAllPacks()

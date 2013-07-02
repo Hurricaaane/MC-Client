@@ -9,7 +9,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.src.Minecraft;
 
 /*
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE

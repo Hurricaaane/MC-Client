@@ -8,7 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.client.Minecraft;
 import net.sf.json.JSONObject;
 import eu.ha3.easy.EdgeModel;
 import eu.ha3.easy.EdgeTrigger;
@@ -71,7 +70,7 @@ public class DVHaddon extends HaddonImpl implements SupportsFrameEvents, EdgeMod
 		try
 		{
 			FileWriter fw;
-			fw = new FileWriter(new File(Minecraft.getMinecraftDir(), "jsonified.txt"));
+			fw = new FileWriter(new File(util().getMinecraftDir(), "jsonified.txt"));
 			fw.write(jsonObject.toString(2));
 			fw.close();
 		}

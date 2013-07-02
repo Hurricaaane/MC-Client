@@ -1,6 +1,5 @@
 package net.minecraft.src;
 
-import net.minecraft.client.Minecraft;
 
 /*
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
@@ -72,6 +71,13 @@ public abstract class Ha3RenderRelay
 			
 			Ha3RenderRelay.this.doRender(entity, dx, dy, dz, f, semi);
 			
+		}
+		
+		@Override
+		protected ResourceLocation func_110775_a(Entity var1)
+		{
+			// TODO Auto-generated method stub
+			return null;
 		}
 		
 	}

@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.src.Minecraft;
 
 import org.lwjgl.opengl.GL11;
 

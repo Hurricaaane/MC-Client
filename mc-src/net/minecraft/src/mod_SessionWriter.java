@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import net.minecraft.client.Minecraft;
-
 /*
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
                     Version 2, December 2004 
@@ -36,9 +34,10 @@ public class mod_SessionWriter extends BaseMod
 {
 	public mod_SessionWriter()
 	{
-		Minecraft mc = ModLoader.getMinecraftInstance();
-		String username = mc.session.username;
-		String sessionId = mc.session.sessionId;
+		Minecraft mc = Minecraft.getMinecraft();
+		Session sess = mc.func_110432_I();
+		String username = sess.func_111285_a();
+		String sessionId = sess.func_111286_b();
 		
 		try
 		{

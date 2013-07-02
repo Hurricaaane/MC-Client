@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class FootstepsSCP62 extends Packet62LevelSound
@@ -46,14 +46,14 @@ public class FootstepsSCP62 extends Packet62LevelSound
 	 * Abstract. Reads the raw packet data from the data stream.
 	 */
 	@Override
-	public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		this.soundName = readString(par1DataInputStream, 32);
-		this.field_73577_b = par1DataInputStream.readInt();
-		this.field_73578_c = par1DataInputStream.readInt();
-		this.field_73575_d = par1DataInputStream.readInt();
-		this.volume = par1DataInputStream.readFloat();
-		this.pitch = par1DataInputStream.readUnsignedByte();
+		this.soundName = readString(par1DataInput, 32);
+		this.field_73577_b = par1DataInput.readInt();
+		this.field_73578_c = par1DataInput.readInt();
+		this.field_73575_d = par1DataInput.readInt();
+		this.volume = par1DataInput.readFloat();
+		this.pitch = par1DataInput.readUnsignedByte();
 		
 		// Catch all footsteps and cancel them
 		if (this.volume == 0.15f && this.pitch == 63)
@@ -67,14 +67,14 @@ public class FootstepsSCP62 extends Packet62LevelSound
 	 * Abstract. Writes the raw packet data to the data stream.
 	 */
 	@Override
-	public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		writeString(this.soundName, par1DataOutputStream);
-		par1DataOutputStream.writeInt(this.field_73577_b);
-		par1DataOutputStream.writeInt(this.field_73578_c);
-		par1DataOutputStream.writeInt(this.field_73575_d);
-		par1DataOutputStream.writeFloat(this.volume);
-		par1DataOutputStream.writeByte(this.pitch);
+		writeString(this.soundName, par1DataOutput);
+		par1DataOutput.writeInt(this.field_73577_b);
+		par1DataOutput.writeInt(this.field_73578_c);
+		par1DataOutput.writeInt(this.field_73575_d);
+		par1DataOutput.writeFloat(this.volume);
+		par1DataOutput.writeByte(this.pitch);
 	}
 	
 	@Override

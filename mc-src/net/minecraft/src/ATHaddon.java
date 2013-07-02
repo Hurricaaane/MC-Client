@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import paulscode.sound.SoundSystem;
 import eu.ha3.easy.EdgeModel;
 import eu.ha3.easy.EdgeTrigger;
@@ -62,9 +61,9 @@ public class ATHaddon extends HaddonImpl implements SupportsTickEvents, Supports
 	@Override
 	public void onLoad()
 	{
-		if (!new File(Minecraft.getMinecraftDir(), "audiotori/").exists())
+		if (!new File(util().getMinecraftDir(), "audiotori/").exists())
 		{
-			new File(Minecraft.getMinecraftDir(), "audiotori/").mkdirs();
+			new File(util().getMinecraftDir(), "audiotori/").mkdirs();
 		}
 		
 		this.atPackManager = new ATPackManager(this);
@@ -90,7 +89,7 @@ public class ATHaddon extends HaddonImpl implements SupportsTickEvents, Supports
 		// Load configuration from source
 		try
 		{
-			this.config.setSource(new File(Minecraft.getMinecraftDir(), "audiotori/userconfig.cfg").getCanonicalPath());
+			this.config.setSource(new File(util().getMinecraftDir(), "audiotori/userconfig.cfg").getCanonicalPath());
 			this.config.load();
 		}
 		catch (IOException e)
