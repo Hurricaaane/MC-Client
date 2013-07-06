@@ -2,8 +2,6 @@ package net.minecraft.src;
 
 import java.util.ArrayList;
 
-import net.minecraft.src.Minecraft;
-
 /*
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
                     Version 2, December 2004 
@@ -25,14 +23,14 @@ public class NavstrateGatherer extends Thread
 	NavstrateData navData;
 	ArrayList<NavstrateCoord> stockCoords;
 	
-	mod_Navstrate caller;
+	N2Haddon finisher;
 	int limit;
 	
 	int sleepTime = 100;
 	
-	public void setCaller(mod_Navstrate in)
+	public void setCaller(N2Haddon finisher)
 	{
-		this.caller = in;
+		this.finisher = finisher;
 		
 	}
 	
@@ -79,7 +77,7 @@ public class NavstrateGatherer extends Thread
 	@Override
 	public void run()
 	{
-		if (this.caller == null)
+		if (this.finisher == null)
 			return;
 		
 		if (this.navData == null)
@@ -179,7 +177,7 @@ public class NavstrateGatherer extends Thread
 			
 		}
 		
-		this.caller.finishSnapshot();
+		this.finisher.finishSnapshot();
 		
 	}
 	

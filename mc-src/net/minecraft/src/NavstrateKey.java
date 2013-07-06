@@ -20,12 +20,12 @@ import eu.ha3.mc.convenience.Ha3KeyActions;
 
 public class NavstrateKey implements Ha3KeyActions
 {
-	mod_Navstrate nav;
+	N2Haddon nav;
 	
-	public NavstrateKey(mod_Navstrate nav)
+	public NavstrateKey(N2Haddon nav)
 	{
 		this.nav = nav;
-
+		
 	}
 	
 	@Override
@@ -45,20 +45,22 @@ public class NavstrateKey implements Ha3KeyActions
 	{
 		if (curTime < 5)
 		{
-			if (!nav.isOn())
+			if (!this.nav.isOn())
 			{
-				nav.rescan();
+				this.nav.rescan();
 				
 			}
 			else
 			{
-				nav.performSnapshot();
+				this.nav.performSnapshot();
 				
 			}
 			
 		}
 		else
-			nav.toggle();
+		{
+			this.nav.toggle();
+		}
 		
 	}
 	
