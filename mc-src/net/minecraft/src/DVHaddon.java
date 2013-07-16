@@ -8,7 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import eu.ha3.easy.EdgeModel;
 import eu.ha3.easy.EdgeTrigger;
 import eu.ha3.mc.haddon.SupportsFrameEvents;
@@ -64,14 +66,16 @@ public class DVHaddon extends HaddonImpl implements SupportsFrameEvents, EdgeMod
 		toJsonify.put("minecraft_blocks", generateDTItems(0, 256, "item"));
 		toJsonify.put("minecraft_items", generateDTItems(256, 4096, "item"));
 		
-		JSONObject jsonObject = JSONObject.fromObject(toJsonify);
-		System.out.println(jsonObject);
+		//JSONObject jsonObject = JSONObject.fromObject(toJsonify);
+		
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String jason = gson.toJson(toJsonify);
 		
 		try
 		{
 			FileWriter fw;
-			fw = new FileWriter(new File(util().getMinecraftDir(), "jsonified.txt"));
-			fw.write(jsonObject.toString(2));
+			fw = new FileWriter(new File(Minecraft.getMinecraft().mcDataDir, "jsonified.txt"));
+			fw.write(jason);
 			fw.close();
 		}
 		catch (IOException e)
