@@ -92,7 +92,8 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 		// Load memory from source
 		try
 		{
-			this.memory.setSource(new File(util().getMinecraftDir(), "minaptics_memory.cfg").getCanonicalPath());
+			this.memory.setSource(new File(Minecraft.getMinecraft().mcDataDir, "minaptics_memory.cfg")
+				.getCanonicalPath());
 			this.memory.load();
 		}
 		catch (IOException e)
@@ -102,7 +103,7 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 		}
 		
 		this.VAR = new MinapticsVariator();
-		File configFile = new File(util().getMinecraftDir(), "minaptics.cfg");
+		File configFile = new File(Minecraft.getMinecraft().mcDataDir, "minaptics.cfg");
 		if (configFile.exists())
 		{
 			log("Config file found. Loading...");

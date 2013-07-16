@@ -61,9 +61,9 @@ public class ATHaddon extends HaddonImpl implements SupportsTickEvents, Supports
 	@Override
 	public void onLoad()
 	{
-		if (!new File(util().getMinecraftDir(), "audiotori/").exists())
+		if (!new File(util().getModsFolder(), "audiotori/").exists())
 		{
-			new File(util().getMinecraftDir(), "audiotori/").mkdirs();
+			new File(util().getModsFolder(), "audiotori/").mkdirs();
 		}
 		
 		this.atPackManager = new ATPackManager(this);
@@ -89,7 +89,7 @@ public class ATHaddon extends HaddonImpl implements SupportsTickEvents, Supports
 		// Load configuration from source
 		try
 		{
-			this.config.setSource(new File(util().getMinecraftDir(), "audiotori/userconfig.cfg").getCanonicalPath());
+			this.config.setSource(new File(util().getModsFolder(), "audiotori/userconfig.cfg").getCanonicalPath());
 			this.config.load();
 		}
 		catch (IOException e)

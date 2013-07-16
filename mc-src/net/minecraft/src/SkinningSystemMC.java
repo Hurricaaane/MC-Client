@@ -65,7 +65,7 @@ public class SkinningSystemMC implements SkinningSystem
 	@SuppressWarnings("static-access")
 	public void update()
 	{
-		loadSkinFromFile(this.mc.thePlayer, new File(this.mc.getMinecraftDir(), this.skinPath));
+		loadSkinFromFile(this.mc.thePlayer, new File(this.mc.getModsFolder(), this.skinPath));
 		
 	}
 	

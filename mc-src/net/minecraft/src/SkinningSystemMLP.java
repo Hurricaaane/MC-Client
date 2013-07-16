@@ -171,7 +171,7 @@ public class SkinningSystemMLP implements SkinningSystem
 	public void update()
 	{
 		this.pony = getMyPony();
-		loadSkinFromFile(this.pony, new File(this.haddon.util().getMinecraftDir(), this.skinPath));
+		loadSkinFromFile(this.pony, new File(this.haddon.util().getModsFolder(), this.skinPath));
 		
 		if (this.pony == null)
 		{

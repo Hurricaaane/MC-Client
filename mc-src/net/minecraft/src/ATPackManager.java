@@ -45,7 +45,7 @@ public class ATPackManager
 		this.packs = new LinkedHashMap<String, ATPack>();
 		this.packOrder = new ArrayList<String>();
 		
-		this.atDirectory = new File(mod.util().getMinecraftDir(), "audiotori/");
+		this.atDirectory = new File(mod.util().getModsFolder(), "audiotori/");
 	}
 	
 	public void cacheAllPacks()

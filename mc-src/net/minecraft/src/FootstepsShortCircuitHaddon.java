@@ -38,7 +38,7 @@ public class FootstepsShortCircuitHaddon extends HaddonImpl
 		
 		try
 		{
-			File file = new File(util().getMinecraftDir(), "footstepsshortcircuit.txt");
+			File file = new File(Minecraft.getMinecraft().mcDataDir, "footstepsshortcircuit.txt");
 			if (!file.exists())
 			{
 				boolean yes = file.createNewFile();
