@@ -1,6 +1,5 @@
 package net.minecraft.src;
 
-
 /*
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
                     Version 2, December 2004 
@@ -65,9 +64,12 @@ public abstract class Ha3RenderRelay
 		@Override
 		public void doRender(Entity entity, double qx, double qy, double qz, float f, float semi)
 		{
-			double dx = entity.posX * semi + entity.lastTickPosX * (1 - semi);
-			double dy = entity.posY * semi + entity.lastTickPosY * (1 - semi);
-			double dz = entity.posZ * semi + entity.lastTickPosZ * (1 - semi);
+			double dx = entity.posX /** semi + entity.lastTickPosX * (1 - semi) */
+			;
+			double dy = entity.posY /** semi + entity.lastTickPosY * (1 - semi) */
+			;
+			double dz = entity.posZ /** semi + entity.lastTickPosZ * (1 - semi) */
+			;
 			
 			Ha3RenderRelay.this.doRender(entity, dx, dy, dz, f, semi);
 			
