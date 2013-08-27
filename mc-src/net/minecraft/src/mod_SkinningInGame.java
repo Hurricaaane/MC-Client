@@ -20,7 +20,7 @@ public class mod_SkinningInGame extends HaddonBridgeModLoader
 {
 	public mod_SkinningInGame()
 	{
-		super(new SkinningInGameHaddon());
+		super(new DisabledHaddon());
 		
 	}
 	

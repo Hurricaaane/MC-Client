@@ -20,7 +20,7 @@ public class mod_Navstrate2 extends HaddonBridgeModLoader
 {
 	public mod_Navstrate2()
 	{
-		super(new N2Haddon());
+		super(new DisabledHaddon());
 	}
 	
 }
