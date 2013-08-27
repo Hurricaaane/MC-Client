@@ -157,9 +157,9 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 				// mouseFilterXAxis
 				// mouseFilterYAxis
 				util().setPrivateValueLiteral(
-					net.minecraft.src.EntityRenderer.class, this.mc.entityRenderer, "v", 9, this.mouseFilterXAxis);
+					net.minecraft.src.EntityRenderer.class, this.mc.entityRenderer, "u", 9, this.mouseFilterXAxis);
 				util().setPrivateValueLiteral(
-					net.minecraft.src.EntityRenderer.class, this.mc.entityRenderer, "w", 10, this.mouseFilterYAxis);
+					net.minecraft.src.EntityRenderer.class, this.mc.entityRenderer, "v", 10, this.mouseFilterYAxis);
 			}
 			catch (PrivateAccessException e)
 			{
@@ -179,9 +179,9 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 			// debugCamFOV
 			// prevDebugCamFOV
 			util().setPrivateValueLiteral(
-				net.minecraft.src.EntityRenderer.class, this.mc.entityRenderer, "M", 26, value);
+				net.minecraft.src.EntityRenderer.class, this.mc.entityRenderer, "L", 26, value);
 			util().setPrivateValueLiteral(
-				net.minecraft.src.EntityRenderer.class, this.mc.entityRenderer, "N", 27, value);
+				net.minecraft.src.EntityRenderer.class, this.mc.entityRenderer, "M", 27, value);
 			
 		}
 		catch (PrivateAccessException e)

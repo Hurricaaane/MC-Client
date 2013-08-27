@@ -43,7 +43,7 @@ public class mod_ChatLogToFolder extends BaseMod
 	@Override
 	public String getVersion()
 	{
-		return "r0 for 1.5.2";
+		return "r0 for 1.6.2";
 		
 	}
 	

@@ -27,7 +27,7 @@ public class mod_Minaptics extends HaddonBridgeModLoader
 	@Override
 	public String getVersion()
 	{
-		return "r20 for 1.5.2";
+		return "r21 for 1.6.2";
 	}
 	
 }
