@@ -76,7 +76,7 @@ public abstract class Ha3RenderRelay
 		}
 		
 		@Override
-		protected ResourceLocation func_110775_a(Entity var1)
+		protected ResourceLocation getTexture(Entity var1)
 		{
 			// TODO Auto-generated method stub
 			return null;
