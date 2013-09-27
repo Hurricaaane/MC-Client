@@ -35,7 +35,7 @@ public class mod_SessionWriter extends BaseMod
 	public mod_SessionWriter()
 	{
 		Minecraft mc = Minecraft.getMinecraft();
-		Session sess = mc.func_110432_I();
+		Session sess = mc.getSession();
 		String username = sess.func_111285_a();
 		String sessionId = sess.func_111286_b();
 		
