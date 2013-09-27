@@ -296,16 +296,18 @@ public class SkinningSystemMLP implements SkinningSystem
 			BufferedImage bufferedimage = ImageIO.read(instream);
 			this.pony.checkSkin(bufferedimage);
 			
-			RenderEngine re = this.mc.renderEngine;
+			//RenderEngine re = this.mc.renderEngine;
 			
 			// Dev mode
 			//Pony.convertAndLoadPonySkinFromRawToUseable(this.pony, this.skinPath, bufferedimage, re);
 			
 			// Live mode
-			this.pony.texture = this.skinPath;
+			//this.pony.texture = this.skinPath;
 			
-			re.setupTexture(bufferedimage, re.getTexture(this.pony.texture));
-			this.pony.skinUrl = null;
+			//re.setupTexture(bufferedimage, re.getTexture(this.pony.texture));
+			//this.pony.skinUrl = null;
+			
+			TextureUtil.allocateAndSetupTexture(ponyIn.getSkinTexture().getTextureName(), bufferedimage);
 			
 			// TRASH
 			/*if (!eu.ha3.mc.convenience.Ha3StaticUtilities.classExists(

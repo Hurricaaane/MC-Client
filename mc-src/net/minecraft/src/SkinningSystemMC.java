@@ -9,8 +9,6 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-import net.minecraft.src.Minecraft;
-
 /*
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
                     Version 2, December 2004
@@ -34,6 +32,7 @@ public class SkinningSystemMC implements SkinningSystem
 	private final String skinPath = "/skin_edit.png";
 	
 	private String textureBefore = null;
+	private BufferedImage imageBefore = null;
 	
 	private Minecraft mc;
 	
@@ -46,7 +45,8 @@ public class SkinningSystemMC implements SkinningSystem
 	@Override
 	public void enable()
 	{
-		this.textureBefore = this.mc.thePlayer.texture;
+		//this.textureBefore = this.mc.thePlayer.texture;
+		this.imageBefore = null;
 		update();
 		
 	}
@@ -54,18 +54,16 @@ public class SkinningSystemMC implements SkinningSystem
 	@Override
 	public void disable()
 	{
-		String skinUrl = "http://skins.minecraft.net/MinecraftSkins/" + this.mc.thePlayer.username + ".png";
-		this.mc.thePlayer.skinUrl = skinUrl;
-		
-		this.mc.thePlayer.texture = this.textureBefore;
+		//String skinUrl = "http://skins.minecraft.net/MinecraftSkins/" + this.mc.thePlayer.username + ".png";
+		//this.mc.thePlayer.skinUrl = skinUrl;
+		//this.mc.thePlayer.texture = this.textureBefore;
 		
 	}
 	
 	@Override
-	@SuppressWarnings("static-access")
 	public void update()
 	{
-		loadSkinFromFile(this.mc.thePlayer, new File(this.mc.getModsFolder(), this.skinPath));
+		loadSkinFromFile(this.mc.thePlayer, new File(this.mc.mcDataDir, this.skinPath));
 		
 	}
 	
@@ -96,11 +94,13 @@ public class SkinningSystemMC implements SkinningSystem
 		{
 			BufferedImage bufferedimage = ImageIO.read(instream);
 			
-			this.mc.thePlayer.texture = this.skinPath;
+			//this.mc.thePlayer.texture = this.skinPath;
 			
-			RenderEngine re = this.mc.renderEngine;
-			re.setupTexture(bufferedimage, re.getTexture(this.mc.thePlayer.texture));
-			this.mc.thePlayer.skinUrl = null;
+			//RenderEngine re = this.mc.renderEngine;
+			//re.setupTexture(bufferedimage, re.getTexture(this.mc.thePlayer.texture));
+			//this.mc.thePlayer.skinUrl = null;
+			
+			TextureUtil.allocateAndSetupTexture(player.getSkinTexture().getTextureName(), bufferedimage);
 			
 		}
 		catch (Exception e)

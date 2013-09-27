@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import net.minecraft.src.Minecraft;
-
 import org.lwjgl.opengl.Display;
 
 import eu.ha3.easy.EdgeModel;
@@ -81,6 +79,9 @@ public class SkinningInGameHaddon extends HaddonImpl implements SupportsFrameEve
 	
 	private boolean isInstalledMLP()
 	{
+		if (true)
+			return false;
+		
 		return Ha3StaticUtilities.classExists("Pony", this)
 			|| Ha3StaticUtilities.classExists("net.minecraft.src.Pony", this);
 	}

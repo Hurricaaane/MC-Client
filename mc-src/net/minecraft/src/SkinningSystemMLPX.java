@@ -16,19 +16,7 @@ package net.minecraft.src;
   0. You just DO WHAT THE FUCK YOU WANT TO. 
 */
 
-public class mod_SkinningInGame extends HaddonBridgeModLoader
+public class SkinningSystemMLPX
 {
-	public mod_SkinningInGame()
-	{
-		super(new SkinningInGameHaddon());
-		
-	}
-	
-	@Override
-	public String getVersion()
-	{
-		return "r5 for 1.5.2";
-		
-	}
 	
 }
