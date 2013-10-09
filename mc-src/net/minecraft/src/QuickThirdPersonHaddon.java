@@ -65,13 +65,13 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 	@Override
 	public void onFrame(float semi)
 	{
-		Minecraft mc = manager().getMinecraft();
+		Minecraft mc = Minecraft.getMinecraft();
 		
 		int tpMode = mc.gameSettings.thirdPersonView;
 		boolean shouldEnable = this.activate && tpMode > 0 && tpMode == this.previousTPmode;
 		this.previousTPmode = mc.gameSettings.thirdPersonView;
 		
-		manager().getMinecraft().gameSettings.debugCamEnable = shouldEnable;
+		Minecraft.getMinecraft().gameSettings.debugCamEnable = shouldEnable;
 		
 		if (!shouldEnable)
 		{
@@ -137,15 +137,15 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 			// prevDebugCamPitch;
 			
 			util().setPrivateValueLiteral(
-				EntityRenderer.class, manager().getMinecraft().entityRenderer, "D", 17,
+				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "D", 17,
 				this.desiredYaw + viewOffsetsYaw);
 			util().setPrivateValueLiteral(
-				EntityRenderer.class, manager().getMinecraft().entityRenderer, "E", 18,
+				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "E", 18,
 				this.desiredYaw + viewOffsetsYaw);
 			util().setPrivateValueLiteral(
-				EntityRenderer.class, manager().getMinecraft().entityRenderer, "F", 19, this.desiredPitch);
+				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "F", 19, this.desiredPitch);
 			util().setPrivateValueLiteral(
-				EntityRenderer.class, manager().getMinecraft().entityRenderer, "G", 20, this.desiredPitch);
+				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "G", 20, this.desiredPitch);
 		}
 		catch (PrivateAccessException e)
 		{
@@ -200,15 +200,15 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 			// prevDebugCamPitch;
 			
 			util().setPrivateValueLiteral(
-				EntityRenderer.class, manager().getMinecraft().entityRenderer, "D", 17,
+				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "D", 17,
 				this.desiredYaw + viewOffsetsYaw);
 			util().setPrivateValueLiteral(
-				EntityRenderer.class, manager().getMinecraft().entityRenderer, "E", 18,
+				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "E", 18,
 				this.desiredYaw + viewOffsetsYaw);
 			util().setPrivateValueLiteral(
-				EntityRenderer.class, manager().getMinecraft().entityRenderer, "F", 19, this.desiredPitch);
+				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "F", 19, this.desiredPitch);
 			util().setPrivateValueLiteral(
-				EntityRenderer.class, manager().getMinecraft().entityRenderer, "G", 20, this.desiredPitch);
+				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "G", 20, this.desiredPitch);
 		}
 		catch (PrivateAccessException e)
 		{
@@ -230,7 +230,7 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 		if (!this.wasEnabled)
 			return;
 		
-		EntityLivingBase ply = manager().getMinecraft().thePlayer;
+		EntityLivingBase ply = Minecraft.getMinecraft().thePlayer;
 		
 		ply.rotationPitch = this.directivePitch;
 		ply.rotationYaw = this.directiveYaw;
@@ -242,7 +242,7 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 		if (!this.wasEnabled)
 			return;
 		
-		EntityLivingBase ply = manager().getMinecraft().thePlayer;
+		EntityLivingBase ply = Minecraft.getMinecraft().thePlayer;
 		
 		this.directivePitch = ply.rotationPitch;
 		this.directiveYaw = ply.rotationYaw;
@@ -277,7 +277,7 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 	
 	private void gatherDesiredAngles()
 	{
-		Minecraft mc = manager().getMinecraft();
+		Minecraft mc = Minecraft.getMinecraft();
 		
 		float f = mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
 		float f1 = f * f * f * 8F;

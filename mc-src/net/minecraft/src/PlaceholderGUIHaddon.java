@@ -42,7 +42,7 @@ public class PlaceholderGUIHaddon extends HaddonImpl implements SupportsKeyEvent
 			}
 			else if (util().isCurrentScreen(null))
 			{
-				manager().getMinecraft().displayGuiScreen(new PlaceholderGUI());
+				Minecraft.getMinecraft().displayGuiScreen(new PlaceholderGUI());
 				
 			}
 			

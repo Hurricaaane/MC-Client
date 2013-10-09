@@ -49,7 +49,7 @@ public class SkinningInGameHaddon extends HaddonImpl implements SupportsFrameEve
 	@Override
 	public void onLoad()
 	{
-		this.mc = manager().getMinecraft();
+		this.mc = Minecraft.getMinecraft();
 		
 		if (isInstalledMLP())
 		{
@@ -103,7 +103,7 @@ public class SkinningInGameHaddon extends HaddonImpl implements SupportsFrameEve
 			
 			if (!Display.isActive() && util().isCurrentScreen(net.minecraft.src.GuiIngameMenu.class))
 			{
-				manager().getMinecraft().displayGuiScreen(new SkinningInGamePauseGUI());
+				Minecraft.getMinecraft().displayGuiScreen(new SkinningInGamePauseGUI());
 				
 			}
 			

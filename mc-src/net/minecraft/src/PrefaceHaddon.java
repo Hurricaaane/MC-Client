@@ -85,7 +85,7 @@ public class PrefaceHaddon extends HaddonImpl implements SupportsTickEvents
 	
 	protected void open()
 	{
-		manager().getMinecraft().displayGuiScreen(null);
+		Minecraft.getMinecraft().displayGuiScreen(null);
 		System.out.println("ff");
 		
 	}

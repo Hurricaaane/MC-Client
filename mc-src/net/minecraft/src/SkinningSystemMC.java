@@ -39,7 +39,7 @@ public class SkinningSystemMC implements SkinningSystem
 	public SkinningSystemMC(SkinningInGameHaddon haddon)
 	{
 		this.haddon = haddon;
-		this.mc = this.haddon.manager().getMinecraft();
+		this.mc = Minecraft.getMinecraft();
 	}
 	
 	@Override

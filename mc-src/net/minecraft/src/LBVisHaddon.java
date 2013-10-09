@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.minecraft.src.Minecraft;
-
 import org.lwjgl.opengl.GL11;
 
 import eu.ha3.easy.EdgeModel;
@@ -62,7 +60,7 @@ public class LBVisHaddon extends HaddonImpl implements SupportsTickEvents, Suppo
 			@Override
 			public void onTrueEdge()
 			{
-				manager().getMinecraft().thePlayer.sendChatMessage("/lb next");
+				Minecraft.getMinecraft().thePlayer.sendChatMessage("/lb next");
 			}
 			
 			@Override
@@ -79,7 +77,7 @@ public class LBVisHaddon extends HaddonImpl implements SupportsTickEvents, Suppo
 	@Override
 	public void onLoad()
 	{
-		this.renderRelay = new RenderLB(manager().getMinecraft());
+		this.renderRelay = new RenderLB(Minecraft.getMinecraft());
 		
 		manager().hookTickEvents(true);
 		manager().hookChatEvents(true);
@@ -237,7 +235,7 @@ public class LBVisHaddon extends HaddonImpl implements SupportsTickEvents, Suppo
 	@Override
 	public void onTick()
 	{
-		Minecraft mc = manager().getMinecraft();
+		Minecraft mc = Minecraft.getMinecraft();
 		if (this.renderRelay.ensureExists())
 		{
 			System.out.println("Respawned Render Entity");
@@ -295,7 +293,7 @@ public class LBVisHaddon extends HaddonImpl implements SupportsTickEvents, Suppo
 		
 		// draw selection box
 		
-		EntityPlayer ply = manager().getMinecraft().thePlayer;
+		EntityPlayer ply = Minecraft.getMinecraft().thePlayer;
 		
 		//delta = 0;
 		

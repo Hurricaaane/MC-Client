@@ -2,8 +2,6 @@ package net.minecraft.src;
 
 import java.nio.charset.Charset;
 
-import net.minecraft.src.Minecraft;
-
 import org.lwjgl.opengl.GL11;
 
 import eu.ha3.mc.haddon.SupportsConnectEvents;
@@ -33,7 +31,7 @@ public class WEJTFR extends HaddonImpl implements SupportsIncomingMessages, Supp
 	@Override
 	public void onLoad()
 	{
-		this.renderRelay = new RenderWE(manager().getMinecraft());
+		this.renderRelay = new RenderWE(Minecraft.getMinecraft());
 		
 		manager().enlistIncomingMessages("WECUI");
 		manager().enlistOutgoingMessages("WECUI"); // This does almost nothing

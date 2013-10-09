@@ -84,7 +84,7 @@ public class N2Haddon extends HaddonImpl implements SupportsFrameEvents, Support
 		if (this.gatherer != null)
 			return;
 		
-		Minecraft mc = manager().getMinecraft();
+		Minecraft mc = Minecraft.getMinecraft();
 		
 		int x = (int) Math.floor(mc.thePlayer.posX);
 		int y = (int) Math.floor(mc.thePlayer.posY);
@@ -107,17 +107,17 @@ public class N2Haddon extends HaddonImpl implements SupportsFrameEvents, Support
 	@Override
 	public void onFrame(float f)
 	{
-		if (this.worldTime != manager().getMinecraft().theWorld.getWorldTime())
+		if (this.worldTime != Minecraft.getMinecraft().theWorld.getWorldTime())
 		{
 			this.keyManager.handleRuntime();
-			this.worldTime = manager().getMinecraft().theWorld.getWorldTime();
+			this.worldTime = Minecraft.getMinecraft().theWorld.getWorldTime();
 			
 		}
 		
 		if (!this.isOn)
 			return;
 		
-		Minecraft mc = manager().getMinecraft();
+		Minecraft mc = Minecraft.getMinecraft();
 		
 		int screenXshift = 32;
 		int screenYshift = 32;

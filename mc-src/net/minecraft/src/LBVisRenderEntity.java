@@ -18,13 +18,9 @@ package net.minecraft.src;
 
 public class LBVisRenderEntity extends Entity
 {
-	private LBVisHaddon haddon;
-	
-	public LBVisRenderEntity(LBVisHaddon haddon, World par1World)
+	public LBVisRenderEntity(World par1World)
 	{
 		super(par1World);
-		
-		this.haddon = haddon;
 		
 		this.ignoreFrustumCheck = true;
 		
@@ -33,7 +29,7 @@ public class LBVisRenderEntity extends Entity
 	@Override
 	public void onEntityUpdate()
 	{
-		EntityPlayer ply = this.haddon.getManager().getMinecraft().thePlayer;
+		EntityPlayer ply = Minecraft.getMinecraft().thePlayer;
 		
 		setPosition(ply.posX, ply.posY, ply.posZ);
 		

@@ -69,7 +69,7 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 	@Override
 	public void onLoad()
 	{
-		this.mc = manager().getMinecraft();
+		this.mc = Minecraft.getMinecraft();
 		this.keyManager = new Ha3KeyManager();
 		
 		this.memory = new ConfigProperty();

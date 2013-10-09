@@ -33,8 +33,8 @@ public class BindingsCompactHaddon extends HaddonImpl implements SupportsTickEve
 	{
 		if (util().isCurrentScreen(null))
 		{
-			manager().getMinecraft().displayGuiScreen(
-				new BindingsCompactGUI(null, manager().getMinecraft().gameSettings));
+			Minecraft.getMinecraft().displayGuiScreen(
+				new BindingsCompactGUI(null, Minecraft.getMinecraft().gameSettings));
 		}
 		
 	}

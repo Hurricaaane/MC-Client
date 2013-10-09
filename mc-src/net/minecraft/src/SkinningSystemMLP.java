@@ -38,7 +38,7 @@ public class SkinningSystemMLP implements SkinningSystem
 	public SkinningSystemMLP(SkinningInGameHaddon haddon)
 	{
 		this.haddon = haddon;
-		this.mc = this.haddon.manager().getMinecraft();
+		this.mc = this.haddon.Minecraft.getMinecraft();
 	}
 	
 	@Override
