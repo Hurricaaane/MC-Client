@@ -1,4 +1,4 @@
-package eu.ha3.mc.misc.modloader_deprecated;
+package eu.ha3.mc.glite.chatlog;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,9 +8,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.IChatComponent;
+
+import com.mumfrey.liteloader.ChatListener;
+import com.mumfrey.liteloader.InitCompleteListener;
+import com.mumfrey.liteloader.LiteMod;
+import com.mumfrey.liteloader.core.LiteLoader;
+
 /* xw-placeholder */
 
-public class mod_ChatLogToFolder extends BaseMod
+public class LiteModChatLogToFolder implements LiteMod, ChatListener, InitCompleteListener
 {
 	private File folder;
 	
@@ -20,21 +28,28 @@ public class mod_ChatLogToFolder extends BaseMod
 	private File currentFile;
 	private String datePrex;
 	
-	public mod_ChatLogToFolder()
+	public LiteModChatLogToFolder()
 	{
+		super();
+		
 		this.fileDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		this.currentDateFormat = new SimpleDateFormat("HH:mm:ss");
 	}
 	
 	@Override
-	public String getVersion()
+	public String getName()
 	{
-		return "r0 for 1.6.2";
-		
+		return "ChatLogToFolder";
 	}
 	
 	@Override
-	public void load()
+	public String getVersion()
+	{
+		return "r1 for 1.7.2";
+	}
+	
+	@Override
+	public void onInitCompleted(Minecraft minecraft, LiteLoader loader)
 	{
 		createLogManager(new File(Minecraft.getMinecraft().mcDataDir, "chatlogs/"));
 		
@@ -48,7 +63,7 @@ public class mod_ChatLogToFolder extends BaseMod
 		
 	}
 	
-	public void createLogManager(File folder)
+	private void createLogManager(File folder)
 	{
 		this.folder = folder;
 		if (!folder.exists())
@@ -60,9 +75,9 @@ public class mod_ChatLogToFolder extends BaseMod
 	}
 	
 	@Override
-	public void clientChat(String contents)
+	public void onChat(IChatComponent chat, String message)
 	{
-		append(contents);
+		append(message);
 	}
 	
 	private void ensureCurrentFile(Date date) throws IOException
@@ -79,7 +94,7 @@ public class mod_ChatLogToFolder extends BaseMod
 		}
 	}
 	
-	public void append(String... lines)
+	private void append(String... lines)
 	{
 		PrintWriter fw = null;
 		try
@@ -104,7 +119,20 @@ public class mod_ChatLogToFolder extends BaseMod
 				fw.close();
 			}
 		}
-		
 	}
 	
+	@Override
+	public void init(File configPath)
+	{
+	}
+	
+	@Override
+	public void upgradeSettings(String version, File configPath, File oldConfigPath)
+	{
+	}
+	
+	@Override
+	public void onTick(Minecraft minecraft, float partialTicks, boolean inGame, boolean clock)
+	{
+	}
 }

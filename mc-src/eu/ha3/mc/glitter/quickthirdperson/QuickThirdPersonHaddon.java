@@ -1,17 +1,32 @@
 package eu.ha3.mc.glitter.quickthirdperson;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.EntityLivingBase;
 import eu.ha3.mc.convenience.Ha3KeyActions;
-import eu.ha3.mc.convenience.Ha3KeyManager;
+import eu.ha3.mc.convenience.Ha3KeyManager_2;
+import eu.ha3.mc.haddon.Identity;
+import eu.ha3.mc.haddon.OperatorCaster;
+import eu.ha3.mc.haddon.OperatorKeyer;
 import eu.ha3.mc.haddon.PrivateAccessException;
-import eu.ha3.mc.haddon.SupportsFrameEvents;
-import eu.ha3.mc.haddon.SupportsKeyEvents;
-import eu.ha3.mc.haddon.SupportsTickEvents;
+import eu.ha3.mc.haddon.implem.HaddonIdentity;
+import eu.ha3.mc.haddon.implem.HaddonImpl;
+import eu.ha3.mc.haddon.supporting.SupportsFrameEvents;
+import eu.ha3.mc.haddon.supporting.SupportsTickEvents;
 
 /* xw-placeholder */
 
 public class QuickThirdPersonHaddon extends HaddonImpl
-	implements SupportsFrameEvents, SupportsKeyEvents, SupportsTickEvents, Ha3KeyActions
+	implements SupportsFrameEvents, SupportsTickEvents, Ha3KeyActions
 {
+	// Identity
+	protected final String NAME = "QuickThirdPerson";
+	protected final int VERSION = 0;
+	protected final String FOR = "1.7.2";
+	protected final String ADDRESS = "http://glitter.ha3.eu";
+	protected final Identity identity = new HaddonIdentity(this.NAME, this.VERSION, this.FOR, this.ADDRESS);
+	
 	private float directivePitch;
 	private float directiveYaw;
 	
@@ -24,28 +39,50 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 	private boolean wasEnabled;
 	private KeyBinding bind;
 	
-	private Ha3KeyManager keyManager;
-	private boolean viewAsDirection;
+	private Ha3KeyManager_2 keyManager = new Ha3KeyManager_2();
 	private boolean lockPlayerDirection;
+	private boolean viewAsDirection;
 	
 	private boolean activate;
 	private int previousTPmode;
 	
 	@Override
+	public Identity getIdentity()
+	{
+		return this.identity;
+	}
+	
+	@Override
 	public void onLoad()
 	{
-		this.keyManager = new Ha3KeyManager();
 		this.lockPlayerDirection = true;
 		this.viewAsDirection = false;
 		
 		this.previousTPmode = 0;
 		
-		this.bind = new KeyBinding("key.quickthirdperson", 47);
-		manager().addKeyBinding(this.bind, "QTP Forward");
-		manager().hookFrameEvents(true);
-		manager().hookTickEvents(true);
+		util().registerPrivateSetter("debugCamYaw", EntityRenderer.class, -1, "debugCamYaw", "field_78485_D", "G");
+		util().registerPrivateSetter(
+			"prevDebugCamYaw", EntityRenderer.class, -1, "prevDebugCamYaw", "field_78486_E", "H");
+		util().registerPrivateSetter("debugCamPitch", EntityRenderer.class, -1, "debugCamPitch", "field_78487_F", "I");
+		util().registerPrivateSetter(
+			"prevDebugCamPitch", EntityRenderer.class, -1, "prevDebugCamPitch", "field_78488_G", "J");
 		
+		//this.bind = new KeyBinding("key.quickthirdperson", 47);
+		//manager().addKeyBinding(this.bind, "QTP Forward");
+		
+		this.bind = new KeyBinding("QTP Forward", 47, "key.categories.misc");
+		((OperatorKeyer) op()).addKeyBinding(this.bind);
 		this.keyManager.addKeyBinding(this.bind, this);
+		
+		((OperatorCaster) op()).setFrameEnabled(true);
+		((OperatorCaster) op()).setTickEnabled(true);
+		
+	}
+	
+	@Override
+	public void onTick()
+	{
+		this.keyManager.onTick();
 	}
 	
 	@Override
@@ -117,21 +154,11 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 		
 		try
 		{
-			// debugCamYaw;
-			// prevDebugCamYaw;
-			// debugCamPitch;
-			// prevDebugCamPitch;
-			
-			util().setPrivateValueLiteral(
-				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "D", 17,
-				this.desiredYaw + viewOffsetsYaw);
-			util().setPrivateValueLiteral(
-				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "E", 18,
-				this.desiredYaw + viewOffsetsYaw);
-			util().setPrivateValueLiteral(
-				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "F", 19, this.desiredPitch);
-			util().setPrivateValueLiteral(
-				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "G", 20, this.desiredPitch);
+			util().setPrivate(Minecraft.getMinecraft().entityRenderer, "debugCamYaw", this.desiredYaw + viewOffsetsYaw);
+			util().setPrivate(
+				Minecraft.getMinecraft().entityRenderer, "prevDebugCamYaw", this.desiredYaw + viewOffsetsYaw);
+			util().setPrivate(Minecraft.getMinecraft().entityRenderer, "debugCamPitch", this.desiredPitch);
+			util().setPrivate(Minecraft.getMinecraft().entityRenderer, "prevDebugCamPitch", this.desiredPitch);
 		}
 		catch (PrivateAccessException e)
 		{
@@ -185,16 +212,11 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 			// debugCamPitch;
 			// prevDebugCamPitch;
 			
-			util().setPrivateValueLiteral(
-				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "D", 17,
-				this.desiredYaw + viewOffsetsYaw);
-			util().setPrivateValueLiteral(
-				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "E", 18,
-				this.desiredYaw + viewOffsetsYaw);
-			util().setPrivateValueLiteral(
-				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "F", 19, this.desiredPitch);
-			util().setPrivateValueLiteral(
-				EntityRenderer.class, Minecraft.getMinecraft().entityRenderer, "G", 20, this.desiredPitch);
+			util().setPrivate(Minecraft.getMinecraft().entityRenderer, "debugCamYaw", this.desiredYaw + viewOffsetsYaw);
+			util().setPrivate(
+				Minecraft.getMinecraft().entityRenderer, "prevDebugCamYaw", this.desiredYaw + viewOffsetsYaw);
+			util().setPrivate(Minecraft.getMinecraft().entityRenderer, "debugCamPitch", this.desiredPitch);
+			util().setPrivate(Minecraft.getMinecraft().entityRenderer, "prevDebugCamPitch", this.desiredPitch);
 		}
 		catch (PrivateAccessException e)
 		{
@@ -302,31 +324,12 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 		{
 			this.desiredPitch = 90F;
 		}
-		
-	}
-	
-	@Override
-	public void onKey(KeyBinding event)
-	{
-		if (event != this.bind)
-			return;
-		
-		this.keyManager.handleKeyDown(event);
-		
-	}
-	
-	@Override
-	public void onTick()
-	{
-		this.keyManager.handleRuntime();
-		
 	}
 	
 	@Override
 	public void doBefore()
 	{
 		this.activate = true;
-		
 	}
 	
 	@Override
@@ -336,7 +339,6 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 		{
 			this.lockPlayerDirection = false;
 		}
-		
 	}
 	
 	@Override
@@ -345,14 +347,11 @@ public class QuickThirdPersonHaddon extends HaddonImpl
 		if (curTime < 5)
 		{
 			this.viewAsDirection = true;
-			
 		}
 		else
 		{
 			this.lockPlayerDirection = true;
-			
 		}
-		
 	}
 	
 }

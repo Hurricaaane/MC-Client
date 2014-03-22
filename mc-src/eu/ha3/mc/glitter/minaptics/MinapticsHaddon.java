@@ -3,39 +3,37 @@ package eu.ha3.mc.glitter.minaptics;
 import java.io.File;
 import java.io.IOException;
 
+import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.settings.KeyBinding;
 import eu.ha3.easy.EdgeModel;
 import eu.ha3.easy.EdgeTrigger;
-import eu.ha3.mc.convenience.Ha3KeyManager;
+import eu.ha3.mc.convenience.Ha3KeyManager_2;
+import eu.ha3.mc.haddon.Identity;
+import eu.ha3.mc.haddon.OperatorCaster;
+import eu.ha3.mc.haddon.OperatorKeyer;
 import eu.ha3.mc.haddon.PrivateAccessException;
-import eu.ha3.mc.haddon.SupportsFrameEvents;
-import eu.ha3.mc.haddon.SupportsKeyEvents;
-import eu.ha3.mc.haddon.SupportsTickEvents;
+import eu.ha3.mc.haddon.implem.HaddonIdentity;
+import eu.ha3.mc.haddon.implem.HaddonImpl;
+import eu.ha3.mc.haddon.supporting.SupportsFrameEvents;
+import eu.ha3.mc.haddon.supporting.SupportsTickEvents;
 import eu.ha3.util.property.simple.ConfigProperty;
 
-/*
-            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-                    Version 2, December 2004
-
- Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
-
- Everyone is permitted to copy and distribute verbatim or modified
- copies of this license document, and changing it is allowed as long
- as the name is changed.
-
-            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-
-  0. You just DO WHAT THE FUCK YOU WANT TO.
- */
-
-public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, SupportsTickEvents, SupportsKeyEvents
+public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, SupportsTickEvents
 {
+	// Identity
+	protected final String NAME = "Minaptics";
+	protected final int VERSION = 0;
+	protected final String FOR = "1.7.2";
+	protected final String ADDRESS = "http://glitter.ha3.eu";
+	protected final Identity identity = new HaddonIdentity(this.NAME, this.VERSION, this.FOR, this.ADDRESS);
+	
 	private Minecraft mc;
 	
-	private Ha3KeyManager keyManager;
-	
-	private MinapticsMouseFilter mouseFilterXAxis;
-	private MinapticsMouseFilter mouseFilterYAxis;
+	private Ha3KeyManager_2 keyManager = new Ha3KeyManager_2();
 	
 	private float fovLevel;
 	private float fovLevelTransition;
@@ -53,10 +51,6 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 	private int eventNum;
 	
 	private float wasMouseSensitivity;
-	private boolean wasAlreadySmoothing;
-	
-	private float smootherLevel;
-	private float smootherIntensity;
 	
 	private MinapticsVariator VAR;
 	private ConfigProperty memory;
@@ -67,10 +61,19 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 	private EdgeTrigger changeFOVEdge;
 	
 	@Override
+	public Identity getIdentity()
+	{
+		return this.identity;
+	}
+	
+	@Override
 	public void onLoad()
 	{
+		util().registerPrivateSetter("debugCamFOV", EntityRenderer.class, -1, "debugCamFOV", "field_78493_M", "P");
+		util().registerPrivateSetter(
+			"prevDebugCamFOV", EntityRenderer.class, -1, "prevDebugCamFOV", "field_78494_N", "Q");
+		
 		this.mc = Minecraft.getMinecraft();
-		this.keyManager = new Ha3KeyManager();
 		
 		this.memory = new ConfigProperty();
 		this.memory.setProperty("fov_level", 0.3f);
@@ -128,47 +131,17 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 		//
 		
 		this.fovLevel = this.memory.getFloat("fov_level");
-		this.smootherIntensity = 0.5f;
-		
-		/*this.wasMouseSensitivity = 0;
-		this.wasAlreadySmoothing = false;
-		
-		this.zoomTime = 0;
-		this.eventNum = 0;
-		this.eventNumOnZoom = 0;
-		this.lastTime = 0;
-		this.basePlayerPitch = 0;*/
 		
 		this.fovLevelTransition = this.fovLevel;
 		this.fovLevelSetup = this.fovLevel;
 		
-		KeyBinding zoomKeyBinding = new KeyBinding("key.zoom", this.VAR.ZOOM_KEY);
-		manager().addKeyBinding(zoomKeyBinding, "Zoom (Minaptics)");
+		KeyBinding zoomKeyBinding = new KeyBinding("Minaptics Zoom", this.VAR.ZOOM_KEY, "key.categories.misc");
+		
+		((OperatorKeyer) op()).addKeyBinding(zoomKeyBinding);
 		this.keyManager.addKeyBinding(zoomKeyBinding, new MinapticsZoomBinding(this));
 		
-		if (this.VAR.SMOOTHER_ENABLE)
-		{
-			this.mouseFilterXAxis = new MinapticsMouseFilter();
-			this.mouseFilterYAxis = new MinapticsMouseFilter();
-			
-			updateSmootherStatus();
-			try
-			{
-				// mouseFilterXAxis
-				// mouseFilterYAxis
-				util().setPrivateValueLiteral(
-					net.minecraft.src.EntityRenderer.class, this.mc.entityRenderer, "u", 9, this.mouseFilterXAxis);
-				util().setPrivateValueLiteral(
-					net.minecraft.src.EntityRenderer.class, this.mc.entityRenderer, "v", 10, this.mouseFilterYAxis);
-			}
-			catch (PrivateAccessException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		
-		manager().hookFrameEvents(true);
-		manager().hookTickEvents(true);
+		((OperatorCaster) op()).setFrameEnabled(true);
+		((OperatorCaster) op()).setTickEnabled(true);
 		
 	}
 	
@@ -176,13 +149,8 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 	{
 		try
 		{
-			// debugCamFOV
-			// prevDebugCamFOV
-			util().setPrivateValueLiteral(
-				net.minecraft.src.EntityRenderer.class, this.mc.entityRenderer, "L", 26, value);
-			util().setPrivateValueLiteral(
-				net.minecraft.src.EntityRenderer.class, this.mc.entityRenderer, "M", 27, value);
-			
+			util().setPrivate(this.mc.entityRenderer, "debugCamFOV", value);
+			util().setPrivate(this.mc.entityRenderer, "prevDebugCamFOV", value);
 		}
 		catch (PrivateAccessException e)
 		{
@@ -190,7 +158,6 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 		}
 		
 		return;
-		
 	}
 	
 	@Override
@@ -199,15 +166,9 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 		if (this.isZoomed)
 		{
 			this.mc.gameSettings.mouseSensitivity = doChangeSensitivity(this.wasMouseSensitivity);
-			if (this.smootherLevel == 0f)
-			{
-				doForceSmoothCamera();
-			}
-			
 		}
 		
 		boolean shouldChangeFOV = shouldChangeFOV();
-		
 		if (shouldChangeFOV)
 		{
 			fixFov();
@@ -238,13 +199,6 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 		setCameraZoom((1f - doChangeFOV(1f)) * -1 * fov);
 	}
 	
-	@Override
-	public void onKey(KeyBinding event)
-	{
-		this.keyManager.handleKeyDown(event);
-		
-	}
-	
 	private void zoomToggle()
 	{
 		this.isZoomed = !this.isZoomed;
@@ -252,33 +206,10 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 		if (this.isZoomed)
 		{
 			this.wasMouseSensitivity = this.mc.gameSettings.mouseSensitivity;
-			
-			if (this.VAR.SMOOTHER_ENABLE)
-				if (this.smootherLevel != 0f || !this.VAR.SMOOTHER_WHILE_ZOOMED)
-				{
-					if (this.smootherLevel == 0f)
-					{
-						this.wasAlreadySmoothing = this.mc.gameSettings.smoothCamera;
-					}
-					
-					this.mc.gameSettings.smoothCamera = true;
-					
-				}
-			
 		}
 		else
 		{
 			this.mc.gameSettings.mouseSensitivity = this.wasMouseSensitivity;
-			
-			if (this.VAR.SMOOTHER_ENABLE)
-				if (this.smootherLevel == 0f)
-				{
-					this.mc.gameSettings.smoothCamera = this.wasAlreadySmoothing;
-					
-					doLetSmoothCamera();
-					
-				}
-			
 		}
 		
 		if (System.currentTimeMillis() - this.zoomTime > this.VAR.ZOOM_DURATION)
@@ -295,16 +226,15 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 	@Override
 	public void onTick()
 	{
-		this.keyManager.handleRuntime();
+		this.keyManager.onTick();
 	}
 	
 	public void zoomDoBefore()
 	{
-		if (util().isCurrentScreen(net.minecraft.src.GuiChat.class))
+		if (util().getCurrentScreen() instanceof GuiChat)
 			return;
 		
-		if (util().isCurrentScreen(net.minecraft.src.GuiInventory.class)
-			|| util().isCurrentScreen(net.minecraft.src.GuiContainerCreative.class))
+		if (util().getCurrentScreen() instanceof GuiContainer)
 			return;
 		
 		if (!this.isZoomed)
@@ -327,7 +257,6 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 			
 			this.basePlayerPitch = this.mc.thePlayer.rotationPitch;
 			this.lastTime = System.currentTimeMillis();
-			
 		}
 		else if (timeKey >= this.VAR.TWEAK_TRIGGER && this.isHolding)
 		{
@@ -345,11 +274,8 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 				{
 					this.fovLevelSetup = this.VAR.FOV_MAX;
 				}
-				
 			}
-			
 		}
-		
 	}
 	
 	public void zoomDoAfter(int timeKey)
@@ -376,24 +302,6 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 		this.isHolding = false;
 		
 		this.eventNum++;
-		
-	}
-	
-	private void updateSmootherStatus()
-	{
-		if (this.smootherLevel == 0f)
-		{
-			doLetSmoothCamera();
-			this.mc.gameSettings.smoothCamera = false;
-			
-		}
-		else
-		{
-			this.mc.gameSettings.smoothCamera = true;
-			doForceSmoothCamera();
-			
-		}
-		
 	}
 	
 	private boolean shouldChangeFOV()
@@ -438,39 +346,6 @@ public class MinapticsHaddon extends HaddonImpl implements SupportsFrameEvents, 
 		flushtrum = flushtrum * flushtrum;
 		
 		return inFov * (1f - (1f - this.fovLevel) * flushtrum);
-		
-	}
-	
-	private void doForceSmoothCamera()
-	{
-		if (!this.VAR.SMOOTHER_ENABLE)
-			return;
-		
-		float mixSensitivity = this.mc.gameSettings.mouseSensitivity * 0.6f + 0.2f;
-		mixSensitivity = mixSensitivity * mixSensitivity * mixSensitivity * 8f;
-		float smoothBase =
-			this.smootherLevel == 0f ? this.VAR.SMOOTHER_INTENSITY_IDLE : (1f - this.smootherLevel * 0.999f)
-				* this.smootherIntensity;
-		
-		if (this.isZoomed)
-		{
-			smoothBase = smoothBase * 1 / this.fovLevelSetup;
-		}
-		
-		float cSmooth = mixSensitivity * smoothBase;
-		if (cSmooth > 1f)
-		{
-			cSmooth = 1f;
-		}
-		
-		this.mouseFilterXAxis.force(cSmooth);
-		this.mouseFilterYAxis.force(cSmooth);
-	}
-	
-	private void doLetSmoothCamera()
-	{
-		this.mouseFilterXAxis.let();
-		this.mouseFilterYAxis.let();
 	}
 	
 	private float doChangeSensitivity(float f1)

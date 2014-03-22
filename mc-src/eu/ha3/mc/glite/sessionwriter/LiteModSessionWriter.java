@@ -1,8 +1,15 @@
-package eu.ha3.mc.misc.modloader_deprecated;
+package eu.ha3.mc.glite.sessionwriter;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Session;
+
+import com.mumfrey.liteloader.InitCompleteListener;
+import com.mumfrey.liteloader.LiteMod;
+import com.mumfrey.liteloader.core.LiteLoader;
 
 /* xw-placeholder */
 
@@ -10,40 +17,26 @@ import java.io.IOException;
  * This writes the login session values into a file, as a very simplistic way to
  * enable mod testing on servers in testing phases (i.e. eclipse debug mode).<br>
  * <br>
- * 
  * Only works on Windows, because the author works on Windows...
  * 
  * @author Hurry
- * 
  */
-public class mod_SessionWriter extends BaseMod
+public class LiteModSessionWriter implements LiteMod, InitCompleteListener
 {
-	public mod_SessionWriter()
+	public LiteModSessionWriter()
 	{
-		Minecraft mc = Minecraft.getMinecraft();
-		Session sess = mc.getSession();
-		String username = sess.func_111285_a();
-		String sessionId = sess.func_111286_b();
-		
-		try
-		{
-			File f = new File(getAppDir("minecraft"), "mcsession.txt");
-			if (!f.exists())
-			{
-				f.createNewFile();
-			}
-			FileWriter fw = new FileWriter(f);
-			
-			fw.write(username + " " + sessionId);
-			fw.close();
-			
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-			
-		}
-		
+	}
+	
+	@Override
+	public String getName()
+	{
+		return "SessionWriter";
+	}
+	
+	@Override
+	public String getVersion()
+	{
+		return "x2 Custom (*)";
 	}
 	
 	public static File getAppDir(String from)
@@ -93,15 +86,45 @@ public class mod_SessionWriter extends BaseMod
 	}
 	
 	@Override
-	public String getVersion()
+	public void onInitCompleted(Minecraft minecraft, LiteLoader loader)
 	{
-		return "x2 Custom (*)";
+		Minecraft mc = Minecraft.getMinecraft();
+		Session sess = mc.getSession();
+		String username = sess.getUsername();
+		String sessionId = sess.getSessionID();
+		
+		try
+		{
+			File f = new File(getAppDir("minecraft"), "mcsession.txt");
+			if (!f.exists())
+			{
+				f.createNewFile();
+			}
+			FileWriter fw = new FileWriter(f);
+			
+			fw.write(username + " " + sessionId);
+			fw.close();
+			
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
-	public void load()
+	public void onTick(Minecraft minecraft, float partialTicks, boolean inGame, boolean clock)
 	{
-		return; // Do nothing
+	}
+	
+	@Override
+	public void init(File configPath)
+	{
+	}
+	
+	@Override
+	public void upgradeSettings(String version, File configPath, File oldConfigPath)
+	{
 	}
 	
 }
